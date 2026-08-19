@@ -18,3 +18,7 @@ Execution uses an isolated temporary working directory, a short timeout, no admi
 ## Tests
 
 From `backend/`, run `python -m pytest tests`.
+
+CodeLens
+© 2026 Vansh Dave
+All rights reserved.
