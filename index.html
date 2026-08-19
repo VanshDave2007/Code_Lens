@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeLens - Learn through your code</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="lapis-velvet.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="14" cy="14" r="8.5"/><circle cx="14" cy="14" r="2.3"/><path d="m20.4 20.4 7 7"/></svg></span><span class="brand-word"><b>CODE</b><b>LENS</b></span></div>
+      <p class="workspace-label">LEARNING WORKSPACE</p>
+      <nav>
+        <button class="nav-item active" data-view="dashboard"><span>◈</span> Dashboard</button>
+        <button class="nav-item" data-view="editor"><span aria-hidden="true">✎</span> Editor</button>
+        <button class="nav-item" data-view="analysis"><span>◌</span> Analysis <b id="issueBadge">0</b></button>
+        <button class="nav-item" data-view="tutor"><span aria-hidden="true">🤖</span> AI Tutor</button>
+      </nav>
+      <p class="workspace-label nav-section">LEARNING</p>
+      <nav>
+        <button class="nav-item" data-view="learning"><span aria-hidden="true">◈</span> Python Learning</button>
+        <button class="nav-item" data-view="practice"><span aria-hidden="true">✎</span> Practice</button>
+      </nav>
+      <p class="workspace-label nav-section">PROJECT</p>
+      <nav>
+        <button class="nav-item" data-view="history"><span>◷</span> History</button>
+        <button class="nav-item" data-view="reports"><span>▣</span> Reports</button>
+      </nav>
+      <div class="side-bottom">
+        <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
+        <div class="privacy"><span class="status-dot"></span><div><strong>Local mode</strong><small>Your code stays here</small></div></div>
+        <button class="auth-button" id="openAuth"><span>◉</span> Log in or sign up</button>
+      </div>
+    </aside>
+    <main>
+      <header><div id="crumb">Workspace / Dashboard</div><div class="header-actions"><button id="newCode" class="ghost">+ New file</button><button id="analyzeTop" class="primary">Analyze code <span>→</span></button></div></header>
+
+      <section id="dashboard" class="view active">
+        <div class="hero"><div><p class="eyebrow">SEE BEYOND THE SYNTAX</p><h1>Understand Your Code.<br><em>Improve Your Skills.</em></h1><p class="subhead">Analyze your Python code, understand every finding, and learn to write cleaner, more maintainable programs with guided local AI.</p><div class="hero-actions"><button class="primary go-editor">Start coding <span>→</span></button><button class="ghost go-analysis">Analyze code</button><button class="ai-action go-tutor">Ask AI <span>✦</span></button><button class="ghost go-learning">Continue learning</button></div></div><div class="hero-art"><div class="orb"></div><div class="code-card"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><pre><i>def</i> <b>learn</b>(code):
+  <i>return</i> insight</pre></div></div></div>
+        <div class="section-title"><h2>Your code at a glance</h2><span id="lastRun">No analysis yet</span></div>
+        <div class="metrics-grid">
+          <article class="metric"><span class="metric-icon lavender">⌘</span><p>Lines of code</p><strong id="metricLoc">0</strong><small>in current file</small></article>
+          <article class="metric"><span class="metric-icon mint">◇</span><p>Functions</p><strong id="metricFunctions">0</strong><small>ready to explore</small></article>
+          <article class="metric"><span class="metric-icon peach">⌁</span><p>Health score</p><strong id="metricScore">--</strong><small id="metricScoreDetail">analyze to calculate</small></article>
+          <article class="metric"><span class="metric-icon blue">◌</span><p>Improvement points</p><strong id="metricIssues">0</strong><small>friendly suggestions</small></article>
+        </div>
+        <div class="two-col"><article class="panel recent"><div class="panel-head"><h3>Recent analyses</h3><button class="text-btn go-analysis">See all</button></div><div id="historyList" class="empty-state">Your saved analyses will appear here.</div></article><article class="panel learning"><p class="eyebrow">LEARNING TIP</p><h3>Small functions are easier to understand.</h3><p>Aim for one clear responsibility per function. It makes testing and future changes much simpler.</p><button class="text-btn go-tutor">Ask the tutor →</button></article></div>
+      </section>
+
+      <section id="editor" class="view">
+        <div class="page-title"><div><p class="eyebrow">PYTHON WORKSPACE</p><h1>Editor</h1></div><div class="editor-buttons"><label class="ghost file-label">Open <input id="fileInput" type="file" accept=".py,text/plain"></label><button id="saveCode" class="ghost">Save .py</button><button id="clearCode" class="ghost danger">Clear</button><button id="runCode" class="secondary">Run <span>▶</span></button><button id="analyzeEditor" class="primary">Analyze <span>→</span></button></div></div>
+        <div class="editor-layout"><div class="editor-wrap"><div class="file-tab"><span class="python-dot">PY</span><input id="fileName" value="untitled.py" aria-label="File name"><span class="unsaved" id="unsaved">●</span></div><div class="code-area"><div id="lineNumbers"></div><textarea id="codeInput" spellcheck="false" aria-label="Python code"></textarea></div><div class="editor-footer"><span>Python</span><span id="cursorPos">Ln 1, Col 1</span></div><div class="output-panel"><div><span>OUTPUT</span><b id="runStatus">Ready</b></div><pre id="runOutput">Run your Python code to see output here.</pre></div></div><aside class="editor-guide"><span class="guide-icon">✦</span><h3>Write, run, then learn</h3><p>Paste a Python program or use the starter code. CodeLens checks structure, readability and complexity.</p><button id="loadSample" class="text-btn">Load sample code →</button><div class="trust-note"><span>⌁</span>Analysis happens in this browser.</div></aside></div>
+      </section>
+
+      <section id="analysis" class="view">
+        <div class="page-title"><div><p class="eyebrow">CODE REVIEW</p><h1>Analysis</h1><p id="analysisSummary" class="muted">Analyze your Python code to see a friendly review.</p></div><button class="primary" id="reanalyze">Analyze again <span>↻</span></button></div>
+        <div class="score-section"><article class="score-card"><div class="score-ring" id="scoreRing"><div><strong id="scoreValue">--</strong><span>/ 100</span></div></div><div><p class="eyebrow">CODE HEALTH</p><h2 id="scoreLabel">Ready when you are</h2><p id="scoreText">Your score balances syntax, structure, complexity and documentation.</p></div></article><div class="breakdowns"><div><span>Syntax</span><div class="bar"><i id="syntaxBar"></i></div><b id="syntaxValue">--</b></div><div><span>Quality</span><div class="bar"><i id="qualityBar"></i></div><b id="qualityValue">--</b></div><div><span>Complexity</span><div class="bar"><i id="complexityBar"></i></div><b id="complexityValue">--</b></div><div><span>Documentation</span><div class="bar"><i id="docsBar"></i></div><b id="docsValue">--</b></div></div></div>
+        <div class="analysis-grid"><article class="panel findings-panel"><div class="panel-head"><div><h3>Improvement points</h3><p id="findingsCount">No findings yet</p></div><div class="filter-pills"><button class="pill active" data-filter="all">All</button><button class="pill" data-filter="warning">Warnings</button><button class="pill" data-filter="suggestion">Suggestions</button></div></div><div id="findingsList" class="empty-state large">Run an analysis from the Editor to get your feedback.</div></article><aside class="panel stats-panel"><h3>Code statistics</h3><div class="stat-row"><span>Lines of code</span><b id="statLoc">0</b></div><div class="stat-row"><span>Functions</span><b id="statFunctions">0</b></div><div class="stat-row"><span>Classes</span><b id="statClasses">0</b></div><div class="stat-row"><span>Imports</span><b id="statImports">0</b></div><div class="stat-row"><span>Decision paths</span><b id="statDecisions">0</b></div><div class="complexity-note"><span>⌁</span><p><strong id="complexityLevel">Complexity: --</strong><br>Lower complexity generally means code is easier to test and maintain.</p></div></aside></div>
+      </section>
+
+      <section id="tutor" class="view"><div class="page-title"><div><p class="eyebrow">AI LEARNING COMPANION</p><h1>Ask the tutor</h1><p class="muted">Clear, student-friendly explanations based on your current code.</p></div><span class="local-chip"><span class="status-dot"></span> Local guidance</span></div><div class="tutor-layout"><article class="panel tutor-main"><div id="tutorWelcome" class="tutor-welcome"><span>✦</span><h2>What would you like to understand?</h2><p>Choose a prompt, or ask a question about your Python code.</p></div><div id="tutorResponse" class="tutor-response hidden"></div><div class="prompt-chips"><button data-prompt="explain">Explain my code</button><button data-prompt="issues">Explain my findings</button><button data-prompt="improve">How can I improve it?</button><button data-prompt="concept">What is complexity?</button></div><form id="tutorForm"><input id="tutorInput" placeholder="Ask about your code…" autocomplete="off"><button class="primary">Ask <span>→</span></button></form></article><aside class="tutor-side"><div class="tip-card"><p class="eyebrow">HOW IT WORKS</p><h3>Learning-first feedback</h3><p>This prototype creates guidance from the static analysis in your browser. Connect a local Ollama model later for richer explanations.</p></div><div class="tip-card soft"><p class="eyebrow">TRY ASKING</p><button class="text-btn" data-question="Why is a docstring helpful?">Why is a docstring helpful?</button><button class="text-btn" data-question="What does cyclomatic complexity mean?">What does cyclomatic complexity mean?</button></div></aside></div></section>
+
+      <section id="history" class="view"><div class="page-title"><div><p class="eyebrow">LOCAL ANALYSIS RECORD</p><h1>Analysis history</h1><p class="muted">Your latest analyses are stored in this browser on this device.</p></div><button class="ghost" id="clearHistory">Clear history</button></div><article class="panel history-panel"><div class="history-head"><span>PROJECT</span><span>ANALYZED</span><span>ISSUES</span><span>HEALTH</span></div><div id="historyPageList" class="empty-state large">No analysis history yet.</div></article></section>
+
+      <section id="reports" class="view"><div class="page-title"><div><p class="eyebrow">SHARE YOUR PROGRESS</p><h1>Reports</h1><p class="muted">Export a snapshot of the current analysis.</p></div></div><div class="report-grid"><article class="report-card"><span class="report-icon lavender">▣</span><h3>Markdown report</h3><p>Ideal for a README, project notes, or Git repository.</p><button class="primary export" data-format="md">Download .md <span>↓</span></button></article><article class="report-card"><span class="report-icon mint">{ }</span><h3>JSON data</h3><p>Machine-readable analysis findings and metrics.</p><button class="primary export" data-format="json">Download .json <span>↓</span></button></article><article class="report-card"><span class="report-icon peach">▤</span><h3>Print-friendly report</h3><p>Open a concise report ready to save as PDF.</p><button class="primary export" data-format="print">Open report <span>↗</span></button></article></div><article class="panel report-preview"><div><p class="eyebrow">CURRENT SNAPSHOT</p><h3 id="reportTitle">untitled.py</h3><p id="reportPreview">Analyze your code to prepare a report.</p></div><span id="reportScore">--</span></article></section>
+
+      <section id="settings" class="view"><div class="page-title"><div><p class="eyebrow">PREFERENCES</p><h1>Settings</h1></div></div><div class="settings-panel panel"><div><h3>Analysis thresholds</h3><p>Fine-tune the learning feedback for this device.</p></div><label>Long function lines <input type="number" id="longFunction" value="25" min="5" max="200"></label><label>Deep nesting level <input type="number" id="deepNesting" value="3" min="2" max="10"></label><label>Large file lines <input type="number" id="largeFile" value="250" min="20" max="2000"></label><button id="saveSettings" class="primary">Save preferences</button></div></section>
+    </main>
+  </div>
+  <div class="auth-modal" id="authModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="auth-card"><button class="auth-close" id="closeAuth" aria-label="Close">×</button><div class="auth-lens"><svg viewBox="0 0 32 32"><circle cx="14" cy="14" r="8.5"/><circle cx="14" cy="14" r="2.3"/><path d="m20.4 20.4 7 7"/></svg></div><p class="eyebrow">CODELENS ACCOUNT</p><h2 id="authTitle">Welcome back</h2><p class="auth-copy">Sign in to keep your CodeLens preferences and learning progress on this device.</p><div class="auth-tabs"><button class="active" data-auth-tab="login">Log in</button><button data-auth-tab="signup">Sign up</button></div><form id="authForm"><label id="nameField" class="hidden">Name<input id="authName" autocomplete="name" placeholder="Your name"></label><label>Email<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label><label>Password<input id="authPassword" type="password" autocomplete="current-password" required minlength="4" placeholder="At least 4 characters"></label><button class="primary" id="authSubmit">Log in <span>→</span></button></form><p class="auth-note">This demo uses a local device account - no details leave your browser.</p></div>
+  </div>
+  <div id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
